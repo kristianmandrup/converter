@@ -7,18 +7,33 @@ const prog = sade("subsnip2vsc");
 
 prog
   .version("1.0.5")
-  .option("-c, --config", "Provide path to custom config", "foo.config.js");
+  .option("-c, --config", "Provide path to custom config", "snip2vsc.json");
 
 prog
-  .command("<pattern>")
+  .command("convert <pattern>")
   .describe("Convert sublime to VS Code snippets")
   .option("-o, --output", "Name of the output file", "snippets.json")
   .option("-p, --print", "Print output to screen", true)
   .option("-i, --indent", "Indentation", 4)
+  .option("-d, --dir", "Working directory", process.cwd())
   .example("*.tmSnippet --config my-conf.js")
   .example("snippets/**/*.sublime-snippet -o my-snippets.json")
   .action((pattern, opts) => {
-    convert(pattern, opts);
+    let config,
+      options = opts;
+    if (opts.config) {
+      try {
+        const data = fs.readFileSync(opts.config, "utf8");
+        config = JSON.parse(data);
+        options = {
+          ...opts,
+          ...config
+        };
+      } catch (e) {
+        console.error(`Error reading config file: ${opts.config}`);
+      }
+    }
+    convert(pattern, options);
   });
 
 prog.parse(process.argv);
