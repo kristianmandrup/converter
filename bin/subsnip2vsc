@@ -1,0 +1,24 @@
+#!/usr/bin/env node
+
+const sade = require("sade");
+const convert = require("../convert");
+
+const prog = sade("subsnip2vsc");
+
+prog
+  .version("1.0.5")
+  .option("-c, --config", "Provide path to custom config", "foo.config.js");
+
+prog
+  .command("<pattern>")
+  .describe("Convert sublime to VS Code snippets")
+  .option("-o, --output", "Name of the output file", "snippets.json")
+  .option("-p, --print", "Print output to screen", true)
+  .option("-i, --indent", "Indentation", 4)
+  .example("*.tmSnippet --config my-conf.js")
+  .example("snippets/**/*.sublime-snippet -o my-snippets.json")
+  .action((pattern, opts) => {
+    convert(pattern, opts);
+  });
+
+prog.parse(process.argv);

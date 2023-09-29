@@ -1,0 +1,25 @@
+{
+  "name": "subsnip2vsc",
+  "version": "1.0.0",
+  "description": "Convert sublime snippet files to VS Code snippet files and format",
+  "main": "convert.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "snippets",
+    "snippet",
+    "convert",
+    "sublime",
+    "vsc",
+    "vs code",
+    "code",
+    "cli"
+  ],
+  "author": "Kristian Mandrup",
+  "license": "MIT",
+  "dependencies": {
+    "fast-glob": "^3.3.1",
+    "node-atomizr": "^0.6.1"
+  }
+}
