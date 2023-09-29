@@ -20,6 +20,7 @@
   "license": "MIT",
   "dependencies": {
     "fast-glob": "^3.3.1",
-    "node-atomizr": "^0.6.1"
+    "node-atomizr": "^0.6.1",
+    "sade": "^1.8.1"
   }
 }
