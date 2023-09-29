@@ -1,0 +1,172 @@
+{
+    "dollarsign": {
+        "body": "\\${$0}",
+        "description": "${}",
+        "prefix": "g"
+    },
+    "gactionsubmit": {
+        "body": "\r\n<g:actionSubmit value=\"${1:text}\" action=\"${2:action}\" ${3:onclick=\"${4:jsCode}\"} >",
+        "description": "Generates a submit button that maps to a specific action",
+        "prefix": "gactionsubmit"
+    },
+    "gcheckbox": {
+        "body": "\r\n<g:checkBox name=\"${1:name}\" value=\"${3:value}\" checked=\"${4:false}\" >\r\n<label for=\"${1:name}\">${2:text}<label>",
+        "description": "Generates a checkbox form field",
+        "prefix": "gcheckbox"
+    },
+    "gcollect": {
+        "body": "\r\n<g:collect in=\"${1:attribute}\" expr=\"${2:expression}\">\r\n\t{3}\r\n<g:collect>",
+        "description": "Uses the Groovy JDK collect method to transform objects in a list by a expression",
+        "prefix": "collect"
+    },
+    "gcreatelink": {
+        "body": "<g:createLink controller=\"${1:book}\" action=\"${2:show}\" ${3:params=\"[${4:name}:${5:'Grails in Action'}]\"} >",
+        "description": "Creates a link that can be used in a href, JavaScript, AJAX call, etc",
+        "prefix": "gcreatelink"
+    },
+    "geach": {
+        "body": "<g:each var=\"${1:item}\" in=\"\\${${2:list}}\">\n<g:each>",
+        "description": "Uses the Groovy JDK each method to iterate the specified list",
+        "prefix": "geach"
+    },
+    "gelse": {
+        "body": "<g:else>\n\t$1\n<g:else>",
+        "description": "The logical else tag",
+        "prefix": "gelse"
+    },
+    "gelseif": {
+        "body": "<g:elseif test=\"\\${${1:true}}\">\n\t$2\n<g:elseif>",
+        "description": "The logical elseif tag",
+        "prefix": "gelseif"
+    },
+    "gelseifenv": {
+        "body": "<g:elseif env=\"${1:development}\" ${2:test=\"\\${${3:true}\\}\"}>\n\t$4\n<g:elseif>",
+        "description": "The logical elseif tag for an environment",
+        "prefix": "gelseifenv"
+    },
+    "gfield": {
+        "body": "\r\n<g:field type=\"${1:number}\" name=\"${2:name}\" ${3:value=\"${4:value}\"} ${5:min=\"5\" max=\"10\"} >",
+        "description": "Creates an input field where the user can enter data",
+        "prefix": "gfield"
+    },
+    "gfindall": {
+        "body": "\r\n<g:findAll in=\"${1:data}\" expr=\"${2:expression}\">\r\n\t{3}\r\n<g:findAll>",
+        "description": "Uses the Groovy JDK findAll method to find objects that match the expression",
+        "prefix": "gfindall"
+    },
+    "gfor": {
+        "body": "<g:each in=\"\\${(0..${1:n})}\" var=\"${2:i}\">\n\t$3\n<g:each>",
+        "description": "Uses the each tag with a range of numbers",
+        "prefix": "gfor"
+    },
+    "gform": {
+        "body": "\r\n<g:form name=\"${1}\" url=\"[controller:'${2:controller}', action:'${3:action}']\">\r\n\t${4}\r\n<g:form>",
+        "description": "Creates a form that submits to a controller and action",
+        "prefix": "gform"
+    },
+    "ghid": {
+        "body": "<g:hiddenField name=\"${1:name}\" value=\"\\${${2:value}\\}\" >",
+        "description": "Creates a input of type hidden",
+        "prefix": "ghid"
+    },
+    "gif": {
+        "body": "<g:if test=\"\\${${1:true}}\">\n\t$2\n<g:if>",
+        "description": "The logical if tag to switch on an expression",
+        "prefix": "gif"
+    },
+    "gifenv": {
+        "body": "<g:if env=\"${1:development}\" ${2:test=\"\\${${3:true}\\}\"}>\n\t$4\n<g:if>",
+        "description": "The logical if tag to switch on an expression and/or current environment",
+        "prefix": "gifenv"
+    },
+    "gimg": {
+        "body": "<g:img dir=\"${1:images}\" file=\"${2:logo}.${3:png}\" >",
+        "description": "Renders an HTML img tag for an image resource",
+        "prefix": "gimg"
+    },
+    "gjs": {
+        "body": "<g:javascript>\n\t${1:alert('hello')}\n<g:javascript>",
+        "description": "Includes inline JavaScript",
+        "prefix": "gjs"
+    },
+    "gjslib": {
+        "body": "<g:javascript library=\"${1:name}\">",
+        "description": "Includes a JavaScript library",
+        "prefix": "gjslib"
+    },
+    "gjssrc": {
+        "body": "<g:javascript src=\"${1:path}\">",
+        "description": "Includes a JavaScript script",
+        "prefix": "gjssrc"
+    },
+    "glink": {
+        "body": "<g:link controller=\"${1:book}\" action=\"${2:show}\" ${3:params=\"[${4:name}:${5:'Grails in Action'}]\"}>\n\t$6\n<g:link>",
+        "description": "Creates an html anchor tag with the href set based on the specified parameters",
+        "prefix": "glink"
+    },
+    "glinkm": {
+        "body": "<g:link mapping=\"${1:bookList}\">\n\t$2\n<g:link>",
+        "description": "Creates an html anchor tag for the specified named mapping",
+        "prefix": "glinkm"
+    },
+    "gmsg": {
+        "body": "<g:message code=\"${1:foo}\" ${2:args=\"[${3:bar}]\" }>",
+        "description": "Resolves a message from the given code and args (if any)",
+        "prefix": "gmsg"
+    },
+    "gpwd": {
+        "body": "\r\n<g:passwordField name=\"${1:name}\" ${2:value=\"${3:myPassword}\"} ${4:placeholder=\"${5:text}\"} >",
+        "description": "Creates a input of type 'password'",
+        "prefix": "gpwd"
+    },
+    "gradio": {
+        "body": "\r\n<g:radio id=\"${1:id}\" name=\"${3:name}\" value=\"${4:value}\">\r\n<label for=\"${1:id}\">${2:text}<label>",
+        "description": "Generates a radio button",
+        "prefix": "gradio"
+    },
+    "gradiogroup": {
+        "body": "\r\n<g:radioGroup name=\"${1:grpName}\" values=\"${2:values}\" labels=\"${3:valueLabels}\" value=\"${4:selectedValue}\">\r\n\t<label>\r\n\t\t<span>${it.radio}<span>\r\n\t\t${it.label}\r\n\t<label>\r\n<g:radioGroup>",
+        "description": "Generates radio button groups",
+        "prefix": "gradiogroup"
+    },
+    "grender": {
+        "body": "\r\n<g:render template=\"${1:templateNameNoUnderScoresNoExtension}\" ${2:model=\"['${3:name}':${4:data}]\"}>",
+        "description": "Applies a template against a model",
+        "prefix": "grender"
+    },
+    "gselect": {
+        "body": "\r\n<g:select name=\"${1:name}\" from=\"${2:valuesToSelect}\" value=\"${3:defaultValue}\" noSelection=\"['${4:value}':'${5:noSelectionMsg}']\" ${6:multiple=\"${7:true}\"}>",
+        "description": "Generates HTML select for the given list",
+        "prefix": "gselect"
+    },
+    "gselectbind": {
+        "body": "\r\n<g:select name=\"${1:name}\" from=\"${2:valuesToSelect}\" noSelection=\"['${3:value}':'${4:noSelectionMsg}']\" optionKey=\"${5:optionID}\" optionValue=\"${6:optionText}\" ${7:multiple=\"${8:true}\"}>",
+        "description": "Generates HTML select for the given list with key-value binding",
+        "prefix": "gselectbind"
+    },
+    "gset": {
+        "body": "<g:set var=\"${1:foo}\" value=\"\\${${2:bar}}\" >",
+        "description": "Sets the value of a variable accessible with the GSP page",
+        "prefix": "gset"
+    },
+    "gstring": {
+        "body": "\"\\${$0}\"",
+        "description": "\"${}\"",
+        "prefix": "gs"
+    },
+    "gtext": {
+        "body": "\r\n<g:textField name=\"${1:name}\" value=\"${2:defaultText}\"><g:textField>",
+        "description": "Creates an input of type 'text'",
+        "prefix": "gtext"
+    },
+    "gtextarea": {
+        "body": "\r\n<g:textArea name=\"${1:name}\" ${3:value=\"${4:value}\"} ${5:rows=\"${6:5}\"} ${7:cols=\"${8:40}\"} >",
+        "description": "Creates a HTML text area element",
+        "prefix": "gtextarea"
+    },
+    "gwhile": {
+        "body": "\r\n<g:set var=\"${1:name}\" value=\"${2:expression}\">\r\n<g:while test=\"${3:condition}\">\r\n\t${4}\r\n\t<g:set var=\"${1:name}\" value=\"${5:otherExpression}\">\r\n<g:while>",
+        "description": "Executes a condition in a loop until the condition returns false",
+        "prefix": "gwhile"
+    }
+}

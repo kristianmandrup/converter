@@ -13,7 +13,7 @@ prog
   .command("convert <pattern>")
   .describe("Convert sublime to VS Code snippets")
   .option("-o, --output", "Name of the output file", "snippets.json")
-  .option("-p, --print", "Print output to screen", true)
+  .option("-p, --print", "Print output to screen", false)
   .option("-i, --indent", "Indentation", 4)
   .option("-d, --dir", "Working directory", process.cwd())
   .example("*.tmSnippet --config my-conf.js")

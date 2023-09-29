@@ -22,3 +22,9 @@ Convert all `.sublime-snippet` files in folder and sub-folders of `snippets`.
 Send output to `my-snippets.json` file
 
 `snippets/**/*.sublime-snippet -o my-snippets.json`
+
+## Dev example
+
+```bash
+npx cross-env .\bin\subsnip2vsc convert sublime-snippets/**/*.sublime-snippet -d C:/Users/krma/source/repos/vsc-extensions
+```
