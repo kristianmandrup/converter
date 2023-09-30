@@ -2,9 +2,11 @@
 
 Easily convert sublime `xml` snippet files to VS Code `json` snippets.
 
-# Usage
+# Quick start
 
-Follow instructions from help page
+Install locally or globally via a package manager of your choice.
+
+Follow instructions from CLI help page. See example usage [below](#cli-usage-examples).
 
 `subsnip2vsc -h`
 
