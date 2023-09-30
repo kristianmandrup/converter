@@ -61,7 +61,25 @@ export const convertEntry = (entry, options) => {
   return data;
 };
 
-module.exports = (pattern, options) => {
+const printSnippetEntry = (snippetJson, options) => {
+  if (options.print !== true) return;
+  console.log("================================================");
+  console.log(snippetJson);
+  console.log("================================================");
+};
+
+const writeResultFile = (jsonStr, options) => {
+  try {
+    console.log("WRITING TO", output);
+    const outFilePath = path.join(options.dir, output);
+    fs.writeFileSync(outFilePath, jsonStr);
+  } catch (error) {
+    console.error(error);
+    process.exit(1);
+  }
+};
+
+const convert = (pattern, options) => {
   const { output, print, dir, indent } = options;
   if (dir) {
     options.cwd = dir;
@@ -69,42 +87,48 @@ module.exports = (pattern, options) => {
   const patterns = Array.isArray(pattern) ? pattern : [pattern];
   const entries = fg.globSync(patterns, options);
   let snippetsObj = {};
+  options.convertEntry = options.convertEntry || convertEntry;
+  options.printSnippetEntry = options.printSnippetEntry || printSnippetEntry;
+  options.writeResultFile = options.writeResultFile || writeResultFile;
+  if (!entries?.length) {
+    console.error(`No entries found matching: ${patterns.join(", ")}`);
+    return;
+  }
   try {
     entries.forEach((entry) => {
-      const data = convertEntry(entry, options);
+      const data = options.convertEntry(entry, options);
       if (!data?.length) {
         return;
       }
       const snippetJson = parse(data);
-      if (print === true) {
-        console.log("================================================");
-        console.log(snippetJson);
-        console.log("================================================");
+      if (!snippetJson) {
+        console.log(`invalid snippet file skipped: ${entry}`);
         return;
-      } else {
-        if (snippetJson) {
-          snippetsObj = {
-            ...snippetsObj,
-            ...snippetJson
-          };
-        } else {
-          console.log(`invalid snippet file skipped: ${entry}`);
-        }
+      }
+
+      options.printSnippetEntry(entry, snippetJson, options);
+      if (snippetJson) {
+        snippetsObj = {
+          ...snippetsObj,
+          ...snippetJson
+        };
       }
     });
   } catch (error) {
     console.error(error);
     process.exit(1);
   }
+  const jsonStr = JSON.stringify(snippetsObj, null, indent);
   if (print === true) {
+    console.log(jsonStr);
     process.exit(0);
   }
-  try {
-    console.log("WRITING TO", output);
-    const json = JSON.stringify(snippetsObj, null, indent);
-    fs.writeFileSync(output, json);
-  } catch (error) {
-    console.error(error);
-    process.exit(1);
-  }
+  options.writeResultFile(jsonStr, options);
+};
+
+module.exports = {
+  convert,
+  convertEntry,
+  printSnippetEntry,
+  writeResultFile
 };

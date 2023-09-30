@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 const sade = require("sade");
-const convert = require("../convert");
+const { convert } = require("../convert");
 
 const prog = sade("subsnip2vsc");
 
@@ -16,8 +16,8 @@ prog
   .option("-p, --print", "Print output to screen", false)
   .option("-i, --indent", "Indentation", 4)
   .option("-d, --dir", "Working directory", process.cwd())
-  .example("*.tmSnippet --config my-conf.js")
-  .example("snippets/**/*.sublime-snippet -o my-snippets.json")
+  .example("convert *.tmSnippet --config snippets-conf.json")
+  .example("convert snippets/**/*.sublime-snippet -o my-snippets.json")
   .action((pattern, opts) => {
     let config,
       options = opts;

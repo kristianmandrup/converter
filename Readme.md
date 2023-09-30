@@ -57,23 +57,55 @@ Converted to a single VS Code `snippets.json` file
 
 From there here you can fine tune the snippet file to suit your preferences.
 
-## Usage examples
+## CLI Usage examples
 
 Convert all `*.tmSnippet` files in `snippets` folder and print output to screen
 
-`subsnip2vsc snippets/*.tmSnippet` -p
+`subsnip2vsc convert snippets/*.tmSnippet` -p
 
 Convert all `*.tmSnippet` files in current folder to default `snippets.json` file
 
-`subsnip2vsc *.tmSnippet`
+`subsnip2vsc convert *.sublime-snippet`
 
 Convert all `.sublime-snippet` files in folder and sub-folders of `snippets`.
 Send output to `my-snippets.json` file
 
-`snippets/**/*.sublime-snippet -o my-snippets.json`
+`subsnip2vsc convert snippets/**/*.sublime-snippet -o my-snippets.json`
 
-## Dev example
+## API usage
+
+Using the API directly, lets you customize various aspects of the internal functionality.
+
+```js
+const { convert } = require("subsnip2vsc");
+// using the APIlets you pass a single or multiple glob patterns
+const patterns = ["**/*.*.sublime-snippet, ../*.tmSnippet"];
+
+export const convertEntry = (entry, options) => {
+  // custom convert entry logic
+};
+
+const printSnippetEntry = (snippetJson, options) => {
+  // custom print file logic
+};
+
+const writeResultFile = (jsonStr, options) => {
+  // custom write file logic
+};
+
+const options = {
+  print: true,
+  convertEntry,
+  printSnippetEntry,
+  writeResultFile
+};
+convert(patterns, options);
+```
+
+## Dev CLI example
+
+The following example demonstrates how you can call the binary directly in development mode while setting the work directory to a location of your choice (used as relative location for searching, reading and writing files)
 
 ```bash
-npx cross-env .\bin\subsnip2vsc convert sublime-snippets/**/*.sublime-snippet -d C:/Users/krma/source/repos/vsc-extensions
+npx cross-env .\bin\subsnip2vsc convert sublime-snippets/**/*.sublime-snippet -d C:/Users/xxxx/source/repos/vsc-extensions
 ```
