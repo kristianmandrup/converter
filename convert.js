@@ -13,8 +13,8 @@ const parse = (input) => {
         [name]: {
           body,
           description,
-          prefix
-        }
+          prefix,
+        },
       }
     : undefined;
 };
@@ -24,6 +24,16 @@ const decodeCDataOf = (elem) => elem.replace(/\//g, "");
 const textOf = (elem) => {
   const content = elem._text || decodeCDataOf(elem._cdata);
   return content.replace("\\\\", "\\");
+};
+
+const splitBody = (content) => {
+  const newline = "\\r\\n";
+  let lines = content.split(newline);
+  lines = lines.map((line) => line.replace(newline, ""));
+  if (lines[0] === "") {
+    lines.shift();
+  }
+  return lines;
 };
 
 const convertEntry = (entry, options) => {
@@ -45,14 +55,19 @@ const convertEntry = (entry, options) => {
     data = xml2js.xml2json(data, { compact: true, spaces: 4 });
     const json = JSON.parse(data);
     const jsonObj = {
-      name
+      name,
     };
     options.textOf = options.textOf || textOf;
+    options.splitBody = options.splitBody || splitBody;
+
     const snippet = json.snippet;
     const content = options.textOf(snippet.content);
     const description = options.textOf(snippet.description);
     const trigger = options.textOf(snippet.tabTrigger);
-    jsonObj.body = content;
+
+    const body = options.splitBody(content);
+
+    jsonObj.body = body;
     jsonObj.description = description;
     jsonObj.prefix = trigger;
 
@@ -116,7 +131,7 @@ const convert = (pattern, options) => {
       if (snippetJson) {
         snippetsObj = {
           ...snippetsObj,
-          ...snippetJson
+          ...snippetJson,
         };
       }
     });
@@ -136,7 +151,8 @@ module.exports = {
   convert,
   convertEntry,
   textOf,
+  splitBody,
   decodeCDataOf,
   printSnippetEntry,
-  writeResultFile
+  writeResultFile,
 };

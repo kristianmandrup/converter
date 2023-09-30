@@ -57,7 +57,19 @@ Converted to a single VS Code `snippets.json` file
 }
 ```
 
-From there here you can fine tune the snippet file to suit your preferences.
+Further, if the body has multiple new lines separated with `\r\n` it will be split into an array of lines as follows:
+
+```json
+{
+  "body": [
+    "<g:collect in=\"${1:attribute}\" expr=\"${2:expression}\">",
+    "\t{3}",
+    "<g:collect>"
+  ]
+}
+```
+
+You can then fine-tune the snippet file further to suit your preferences.
 
 ## CLI Usage examples
 
@@ -83,6 +95,11 @@ const { convert } = require("subsnip2vsc");
 // using the APIlets you pass a single or multiple glob patterns
 const patterns = ["**/*.*.sublime-snippet, ../*.tmSnippet"];
 
+// split snippet body text into array of lines
+const splitBody = (content) => {
+  // custom split body logic
+};
+
 // extracts string from element (see xml-js npm package)
 const textOf = (elem) => {
   // custom text extraction of element
@@ -104,6 +121,7 @@ const writeResultFile = (jsonStr, options) => {
 const options = {
   print: true,
   textOf,
+  splitBody,
   convertEntry,
   printSnippetEntry,
   writeResultFile,
@@ -117,16 +135,4 @@ The following example demonstrates how you can call the binary directly in devel
 
 ```bash
 npx cross-env .\bin\subsnip2vsc convert sublime-snippets/**/*.sublime-snippet -d C:/Users/xxxx/source/repos/vsc-extensions
-```
-
-## Future improvements
-
-Currently the body generated is a single line. Instead it should be converted into an array, with one entry per line with a prefixed `\r\n`
-
-```json
-    "body": [
-        "<g:collect in=\"${1:attribute}\" expr=\"${2:expression}\">",
-        "\t{3}",
-        "<g:collect>",
-    ]
 ```
