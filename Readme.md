@@ -106,7 +106,7 @@ const options = {
   textOf,
   convertEntry,
   printSnippetEntry,
-  writeResultFile
+  writeResultFile,
 };
 convert(patterns, options);
 ```
@@ -117,4 +117,16 @@ The following example demonstrates how you can call the binary directly in devel
 
 ```bash
 npx cross-env .\bin\subsnip2vsc convert sublime-snippets/**/*.sublime-snippet -d C:/Users/xxxx/source/repos/vsc-extensions
+```
+
+## Future improvements
+
+Currently the body generated is a single line. Instead it should be converted into an array, with one entry per line with a prefixed `\r\n`
+
+```json
+    "body": [
+        "<g:collect in=\"${1:attribute}\" expr=\"${2:expression}\">",
+        "\t{3}",
+        "<g:collect>",
+    ]
 ```
