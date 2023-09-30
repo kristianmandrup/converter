@@ -14,6 +14,7 @@ prog
   .describe("Convert sublime to VS Code snippets")
   .option("-o, --output", "Name of the output file", "snippets.json")
   .option("-p, --print", "Print output to screen", false)
+  .option("-q, --quiet", "Quiet printing of processing info to screen", false)
   .option("-i, --indent", "Indentation", 4)
   .option("-d, --dir", "Working directory", process.cwd())
   .example("convert *.tmSnippet --config snippets-conf.json")
@@ -30,7 +31,9 @@ prog
           ...config
         };
       } catch (e) {
-        console.error(`Error reading config file: ${opts.config}`);
+        if (!opts.quiet) {
+          console.error(`Error reading config file: ${opts.config}`);
+        }
       }
     }
     convert(pattern, options);

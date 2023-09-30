@@ -1,6 +1,6 @@
 const fs = require("fs");
 const path = require("path");
-const convert = require("xml-js");
+const xml2js = require("xml-js");
 
 // read directory
 const fg = require("fast-glob");
@@ -19,9 +19,18 @@ const parse = (input) => {
     : undefined;
 };
 
-export const convertEntry = (entry, options) => {
+const decodeCDataOf = (elem) => elem.replace(/\//g, "");
+
+const textOf = (elem) => {
+  const content = elem._text || decodeCDataOf(elem._cdata);
+  return content.replace("\\\\", "\\");
+};
+
+const convertEntry = (entry, options) => {
   const filePath = path.join(options.cwd, entry);
-  console.log(`filePath: ${filePath}`);
+  if (!options.quiet) {
+    console.log(`filePath: ${filePath}`);
+  }
   let ext = path.extname(filePath);
   let name = path.basename(entry, ext);
   let data;
@@ -32,31 +41,25 @@ export const convertEntry = (entry, options) => {
     return;
   }
 
-  const decodeCDataOf = (elem) => elem.replace(/\//g, "");
-
-  const textOf = (elem) => {
-    return elem._text || decodeCDataOf(elem._cdata);
-  };
-
   try {
-    data = convert.xml2json(data, { compact: true, spaces: 4 });
+    data = xml2js.xml2json(data, { compact: true, spaces: 4 });
     const json = JSON.parse(data);
     const jsonObj = {
       name
     };
+    options.textOf = options.textOf || textOf;
     const snippet = json.snippet;
-    const content = textOf(snippet.content);
-    const description = textOf(snippet.description);
-    const trigger = textOf(snippet.tabTrigger);
-    // jsonObj.body = JSON.stringify(content.replace("\\\\", "\\"));
-    jsonObj.body = content.replace("\\\\", "\\");
+    const content = options.textOf(snippet.content);
+    const description = options.textOf(snippet.description);
+    const trigger = options.textOf(snippet.tabTrigger);
+    jsonObj.body = content;
     jsonObj.description = description;
     jsonObj.prefix = trigger;
 
     // todo: convert to format expected by atomizr
     data = JSON.stringify(jsonObj);
   } catch (e) {
-    console.log(`Invalid XML: ${e.message}`);
+    console.error(`Invalid XML: ${e.message}`);
   }
   return data;
 };
@@ -69,9 +72,12 @@ const printSnippetEntry = (snippetJson, options) => {
 };
 
 const writeResultFile = (jsonStr, options) => {
+  const { output, dir } = options;
   try {
-    console.log("WRITING TO", output);
-    const outFilePath = path.join(options.dir, output);
+    if (!options.quiet) {
+      console.log("WRITING TO", output);
+    }
+    const outFilePath = path.join(dir, output);
     fs.writeFileSync(outFilePath, jsonStr);
   } catch (error) {
     console.error(error);
@@ -80,7 +86,7 @@ const writeResultFile = (jsonStr, options) => {
 };
 
 const convert = (pattern, options) => {
-  const { output, print, dir, indent } = options;
+  const { print, dir, indent } = options;
   if (dir) {
     options.cwd = dir;
   }
@@ -101,7 +107,7 @@ const convert = (pattern, options) => {
         return;
       }
       const snippetJson = parse(data);
-      if (!snippetJson) {
+      if (!snippetJson && !options.quiet) {
         console.log(`invalid snippet file skipped: ${entry}`);
         return;
       }
@@ -129,6 +135,8 @@ const convert = (pattern, options) => {
 module.exports = {
   convert,
   convertEntry,
+  textOf,
+  decodeCDataOf,
   printSnippetEntry,
   writeResultFile
 };

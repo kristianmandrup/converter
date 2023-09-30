@@ -81,6 +81,12 @@ const { convert } = require("subsnip2vsc");
 // using the APIlets you pass a single or multiple glob patterns
 const patterns = ["**/*.*.sublime-snippet, ../*.tmSnippet"];
 
+// extracts string from element (see xml-js npm package)
+const textOf = (elem) => {
+  // custom text extraction of element
+};
+
+// returns json string for converted entry
 export const convertEntry = (entry, options) => {
   // custom convert entry logic
 };
@@ -95,6 +101,7 @@ const writeResultFile = (jsonStr, options) => {
 
 const options = {
   print: true,
+  textOf,
   convertEntry,
   printSnippetEntry,
   writeResultFile
