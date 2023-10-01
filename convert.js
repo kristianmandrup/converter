@@ -27,7 +27,7 @@ const textOf = (elem) => {
 };
 
 const splitBody = (content) => {
-  const newline = "\\r\\n";
+  const newline = "\n";
   let lines = content.split(newline);
   lines = lines.map((line) => line.replace(newline, ""));
   if (lines[0] === "") {
@@ -100,13 +100,16 @@ const writeResultFile = (jsonStr, options) => {
   }
 };
 
+const hasMultiple = (val) => Array.isArray(val) && val.length > 1;
+
 const convert = (pattern, options) => {
   const { print, dir, indent } = options;
   if (dir) {
     options.cwd = dir;
   }
+  pattern = hasMultiple(options._) ? options._ : pattern;
   const patterns = Array.isArray(pattern) ? pattern : [pattern];
-  const entries = fg.globSync(patterns, options);
+  const entries = fg.sync(patterns, options);
   let snippetsObj = {};
   options.convertEntry = options.convertEntry || convertEntry;
   options.printSnippetEntry = options.printSnippetEntry || printSnippetEntry;

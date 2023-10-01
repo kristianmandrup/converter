@@ -28,7 +28,7 @@ prog
         config = JSON.parse(data);
         options = {
           ...opts,
-          ...config
+          ...config,
         };
       } catch (e) {
         if (!opts.quiet) {
