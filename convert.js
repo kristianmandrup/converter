@@ -71,7 +71,6 @@ const convertEntry = (entry, options) => {
     jsonObj.description = description;
     jsonObj.prefix = trigger;
 
-    // todo: convert to format expected by atomizr
     data = JSON.stringify(jsonObj);
   } catch (e) {
     console.error(`Invalid XML: ${e.message}`);
@@ -107,8 +106,9 @@ const convert = (pattern, options) => {
   if (dir) {
     options.cwd = dir;
   }
-  pattern = hasMultiple(options._) ? options._ : pattern;
-  const patterns = Array.isArray(pattern) ? pattern : [pattern];
+  let patterns = Array.isArray(pattern) ? pattern : [pattern];
+  options._ = options._ || [];
+  patterns = [...patterns, ...options._];
   const entries = fg.sync(patterns, options);
   let snippetsObj = {};
   options.convertEntry = options.convertEntry || convertEntry;
